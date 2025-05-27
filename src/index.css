@@ -22,7 +22,7 @@ body {
   border: 2px solid #00ffe7;
   position: relative;
   z-index: 1;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .app-container::before {
