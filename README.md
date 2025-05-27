@@ -5,7 +5,7 @@ CyberQuiz é um quiz interativo sobre cibersegurança, desenvolvido com React e 
 ## Sobre o desenvolvimento
 
 O projeto foi iniciado seguindo um tutorial do YouTube:  
-[[PedroTech](https://youtu.be/3OqiKTyH4r0?si=6SIT_h9A3keXC8FF)]
+[[ ReactJS Beginner Course 2025 | Learn React By Building a Website  de PedroTech](https://youtu.be/3OqiKTyH4r0?si=6SIT_h9A3keXC8FF)]
 
 Ao final do tutorial, decidi ir além:
 - Mudar completamente o visual para um tema que seja mais "meu estilo"  
