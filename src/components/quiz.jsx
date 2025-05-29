@@ -112,14 +112,16 @@ function Quiz() {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [isQuizFinished, setIsQuizFinished] = useState(false);
     const [started, setStarted] = useState(false);
+    const [showCorrect, setShowCorrect] = useState(false);
 
     const selectedAnswer = userAnswers[currentQuestion];
 
     function handleSelectOption(option) {
+        if (selectedAnswer) return; // impede trocar resposta após responder
         const newUserAnswers = [...userAnswers];
         newUserAnswers[currentQuestion] = option;
-
         setUserAnswers(newUserAnswers);
+        setShowCorrect(true);
     }
 
     function goToNext() {
@@ -128,11 +130,13 @@ function Quiz() {
         } else {
             setCurrentQuestion(currentQuestion + 1);
         }
+        setShowCorrect(false);
     }
 
     function goToPrev() {
         if (currentQuestion > 0) {
             setCurrentQuestion(currentQuestion - 1);
+            setShowCorrect(false);
         }
     }
 
@@ -141,6 +145,7 @@ function Quiz() {
         setCurrentQuestion(0);
         setIsQuizFinished(false);
         setStarted(false); // volta para tela inicial
+        setShowCorrect(false);
     }
 
     if (!started) {
@@ -168,26 +173,52 @@ function Quiz() {
         );
     }
 
+    const correctAnswer = questionBank[currentQuestion].answer;
+
     return (
     <div>
         <h2>Pergunta {currentQuestion + 1}</h2>
         <p className="question"> {questionBank[currentQuestion].question} </p>
 
-        {questionBank[currentQuestion].options.map((option) => (
-            <button 
-            key={option}
-            className={"option" + (selectedAnswer === option ? " selected" : "")}
-            onClick={() => handleSelectOption(option)}
-            >
-                {option}
-            </button>
-        ))}
+        {questionBank[currentQuestion].options.map((option) => {
+            let optionClass = "option";
+            if (selectedAnswer) {
+                if (option === correctAnswer) optionClass += " correct";
+                if (option === selectedAnswer && selectedAnswer !== correctAnswer) optionClass += " wrong";
+                if (option === selectedAnswer) optionClass += " selected";
+            }
+            return (
+                <button 
+                    key={option}
+                    className={optionClass}
+                    onClick={() => handleSelectOption(option)}
+                    disabled={!!selectedAnswer}
+                >
+                    {option}
+                </button>
+            );
+        })}
+
+        {showCorrect && (
+            <div style={{ textAlign: 'center', marginTop: 16 }}>
+                {selectedAnswer === correctAnswer ? (
+                    <span style={{ color: '#00ffe7', fontWeight: 'bold' }}>Correto!</span>
+                ) : (
+                    <span style={{ color: '#ff4b4b', fontWeight: 'bold' }}>
+                        Errado! Resposta correta: <span style={{ color: '#00ffe7' }}>{correctAnswer}</span>
+                    </span>
+                )}
+            </div>
+        )}
 
         <div className="nav-buttons">
             <button onClick={goToPrev} disabled={currentQuestion === 0} >
                 Anterior
             </button>
-            <button onClick={goToNext} disabled={!selectedAnswer}>
+            <button 
+                onClick={goToNext} 
+                disabled={!selectedAnswer || !showCorrect}
+            >
                 {currentQuestion === questionBank.length - 1 ? "Finalizar Quiz" : "Próxima"}
             </button>
         </div>

@@ -96,6 +96,22 @@ h2 {
   box-shadow: 0 0 16px #00ffe7cc;
 }
 
+.option.correct {
+  border: 2px solid #00ffe7;
+  background: linear-gradient(90deg, #00ffe7 0%, #005bea 100%);
+  color: #232a34;
+  font-weight: bold;
+  box-shadow: 0 0 16px #00ffe7cc;
+}
+
+.option.wrong {
+  border: 2px solid #ff4b4b;
+  background: linear-gradient(90deg, #ff4b4b 0%, #232a34 100%);
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 0 16px #ff4b4bcc;
+}
+
 /* Navigation button styles */
 .nav-buttons {
   display: flex;
